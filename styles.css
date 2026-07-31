@@ -1,11 +1,69 @@
 :root {
-  --verde-oscuro: #104E43;
-  --verde-acento: #8CCB3F;
-  --naranja: #EC5E10;
-  --amarillo: #FAAA1F;
-  --crema: #FFE5B3;
-  --blanco-suave: #FFF9F1;
-  --texto-oscuro: #1f1f1f;
+    --verde-oscuro: #104E43;
+    --verde-acento: #8CCB3F;
+    --naranja: #EC5E10;
+    --amarillo: #FAAA1F;
+    --crema: #FFE5B3;
+    --blanco-suave: #FFF9F1;
+    --texto-oscuro: #1f1f1f;
 }
 
 
+.titulo-equipo {
+    color: var(--verde-oscuro);
+    font-weight: 800;
+    font-family: 'Oswald', sans-serif;
+}
+
+.footer-custom {
+    background-color: var(--verde-oscuro);
+    color: var(--blanco-suave);
+}
+
+/* Tarjetas */
+.tarjeta-equipo {
+    border-radius: 12px;
+    transition: transform 0.3s;
+}
+
+.tarjeta-equipo:hover {
+    transform: translateY(-5px);
+}
+
+.img-equipo {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    background-color: var(--crema);
+}
+
+/* Botones Redes Sociales (Equipo) */
+.icono-social {
+    display: inline-flex;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--verde-oscuro);
+    color: var(--blanco-suave);
+    border-radius: 50%;
+    text-decoration: none;
+    transition: 0.3s;
+    margin: 0 0.2rem;
+}
+
+.icono-social:hover {
+    background-color: var(--verde-acento);
+    color: var(--verde-oscuro);
+}
+
+
+/* Divisor Zig-Zag (La magia CSS) */
+.divisor-dentado {
+    height: 15px;
+    background: linear-gradient(-45deg, var(--verde-oscuro) 10px, transparent 0),
+        linear-gradient(45deg, var(--verde-oscuro) 10px, transparent 0);
+    background-position: left bottom;
+    background-repeat: repeat-x;
+    background-size: 20px 20px;
+}
