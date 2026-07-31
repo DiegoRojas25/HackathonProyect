@@ -493,7 +493,8 @@ body {
 /* HISTORIA / NOSOTROS */
 .historia {
     background-color: #104E43;
-    background-image: url("./img/fondo.png");
+    background-image: url("./img/fondo2.png");
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: left center, right center;
     background-size: 100%;
@@ -501,9 +502,11 @@ body {
     padding: 5rem 0;
 }
 
-.historia-img {
-    border: 5px solid var(--crema);
-    border-radius: 5px;
+@media (max-width: 992px) {
+    .historia {
+        background-image: none;
+        background-color: var(--verde-oscuro);
+    }
 }
 
 .historia h1 {

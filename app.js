@@ -1,3 +1,21 @@
+const botonmostrarCarrito = document.getElementById("mostrarCarrito");
+const overlay = document.getElementById("overlay");
+const cerrarCarrito = document.getElementById("cerrarCarrito");
+const catalogo = document.getElementById("catalogoProductos");
+const productosCarrito = document.getElementById("productos-carrito");
+
+cerrarCarrito.addEventListener("click", guardarCarrito);
+botonmostrarCarrito.addEventListener("click", saleCarrito);
+
+function saleCarrito() {
+    overlay.classList.remove("d-none")
+}
+
+function guardarCarrito() {
+    overlay.classList.add("d-none")
+}
+
+
 const productos = [
     {
         id: 1,
@@ -26,9 +44,10 @@ const productos = [
 
 ];
 
-const catalogo = document.getElementById("catalogoProductos");
+const carrito = [];
 
 function mostrarProductos() {
+    catalogo.innerHTML = "";
     productos.forEach(producto => {
         catalogo.innerHTML += `
             <div class="${producto.categoria} col-md-4">
@@ -53,19 +72,84 @@ function mostrarProductos() {
     });
 }
 
-mostrarProductos();
+function cargarCarritoLocal() {
 
-const mostrarCarrito = document.getElementById("mostrarCarrito");
-const overlay = document.getElementById("overlay");
-const cerrarCarrito = document.getElementById("cerrarCarrito");
+    const carritoGuardado = localStorage.getItem("carrito");
 
-cerrarCarrito.addEventListener("click", guardarCarrito);
-mostrarCarrito.addEventListener("click", saleCarrito);
+    if (carritoGuardado) {
 
-function saleCarrito() {
-    overlay.classList.remove("d-none")
+        const productosGuardados = JSON.parse(carritoGuardado);
+
+        carrito.push(...productosGuardados);
+
+    }
+
 }
 
-function guardarCarrito() {
-    overlay.classList.add("d-none")
+mostrarProductos();
+
+cargarCarritoLocal();
+
+mostrarCarrito();
+
+const botonesAgregar = document.querySelectorAll(".btn-agregar");
+
+for (let i = 0; i < botonesAgregar.length; i++) {
+    botonesAgregar[i].addEventListener("click", agregarProducto);
+}
+
+function agregarProducto() {
+
+    const tarjeta = this.closest(".col-md-4");
+
+    const nombre = tarjeta.querySelector("h5").textContent;
+
+    let producto;
+
+    for (let i = 0; i < productos.length; i++) {
+        if (productos[i].nombre === nombre) {
+
+            producto = productos[i];
+            break;
+        }
+    }
+
+    carrito.push(producto);
+
+    guardarCarritoLocal();
+
+    mostrarCarrito();
+}
+
+
+function mostrarCarrito() {
+
+    productosCarrito.innerHTML = "";
+
+    for (let i = 0; i < carrito.length; i++) {
+
+        productosCarrito.innerHTML += `
+
+            <div class="card mb-2">
+
+                <div class="card-body">
+
+                    <h5>${carrito[i].nombre}</h5>
+
+                    <p>$${carrito[i].precio}</p>
+
+                    <button class="btn btn-danger btn-eliminar">
+                        Eliminar
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+    }
+}
+
+function guardarCarritoLocal() {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
 }
