@@ -54,6 +54,7 @@ function mostrarProductos() {
 }
 
 mostrarProductos();
+
 const mostrarCarrito = document.getElementById("mostrarCarrito");
 const overlay = document.getElementById("overlay");
 const cerrarCarrito = document.getElementById("cerrarCarrito");
