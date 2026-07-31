@@ -1,3 +1,21 @@
+const botonmostrarCarrito = document.getElementById("mostrarCarrito");
+const overlay = document.getElementById("overlay");
+const cerrarCarrito = document.getElementById("cerrarCarrito");
+const catalogo = document.getElementById("catalogoProductos");
+const productosCarrito = document.getElementById("productos-carrito");
+const contadorCarrito = document.getElementById("contadorCarrito");
+
+cerrarCarrito.addEventListener("click", guardarCarrito);
+botonmostrarCarrito.addEventListener("click", saleCarrito);
+
+function saleCarrito() {
+    overlay.classList.remove("d-none");
+}
+
+function guardarCarrito() {
+    overlay.classList.add("d-none");
+}
+
 const productos = [
     {
         id: 1,
@@ -5,7 +23,7 @@ const productos = [
         precio: 22000,
         imagen: "img/tacos.jpg",
         descripcion: "Carne de cerdo marinada con piña.",
-        categoria:"platos fuertes."
+        categoria: "platos fuertes."
     },
     {
         id: 2,
@@ -13,7 +31,7 @@ const productos = [
         precio: 26000,
         imagen: "img/burrito.jpg",
         descripcion: "Res, arroz, frijoles y queso.",
-        categoria:"platos fuertes."
+        categoria: "platos fuertes."
     },
     {
         id: 3,
@@ -21,21 +39,18 @@ const productos = [
         precio: 18000,
         imagen: "img/quesadilla.jpg",
         descripcion: "Tortilla de maíz con queso.",
-        categoria:"platos fuertes."
+        categoria: "platos fuertes."
     }
-
 ];
 
-const catalogo = document.getElementById("catalogoProductos");
+const carrito = [];
 
 function mostrarProductos() {
     productos.forEach(producto => {
         catalogo.innerHTML += `
             <div class="${producto.categoria} col-md-4">
                 <div class="cards-platos card h-100">
-
                     <img src="${producto.imagen}" class="card-img-top">
-
                     <div class="card-body text-center">
                         <h5>${producto.nombre}</h5>
                         <p>${producto.descripcion}</p>
@@ -55,17 +70,58 @@ function mostrarProductos() {
 
 mostrarProductos();
 
-const mostrarCarrito = document.getElementById("mostrarCarrito");
-const overlay = document.getElementById("overlay");
-const cerrarCarrito = document.getElementById("cerrarCarrito");
+const botonesAgregar = document.querySelectorAll(".btn-agregar");
 
-cerrarCarrito.addEventListener("click", guardarCarrito);
-mostrarCarrito.addEventListener("click", saleCarrito);
-
-function saleCarrito() {
-    overlay.classList.remove("d-none")
+for (let i = 0; i < botonesAgregar.length; i++) {
+    botonesAgregar[i].addEventListener("click", agregarProducto);
 }
 
-function guardarCarrito() {
-    overlay.classList.add("d-none")
+function agregarProducto() {
+    const tarjeta = this.closest(".col-md-4");
+    const nombre = tarjeta.querySelector("h5").textContent;
+
+    let producto;
+    for (let i = 0; i < productos.length; i++) {
+        if (productos[i].nombre === nombre) {
+            producto = productos[i];
+            break;
+        }
+    }
+
+    carrito.push(producto);
+    mostrarCarrito();
+}
+
+function mostrarCarrito() {
+    productosCarrito.innerHTML = "";
+
+    for (let i = 0; i < carrito.length; i++) {
+        productosCarrito.innerHTML += `
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5>${carrito[i].nombre}</h5>
+                    <p>$${carrito[i].precio}</p>
+                    <button class="btn btn-danger btn-eliminar" data-index="${i}">
+                        Eliminar
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+
+    if (contadorCarrito) {
+        contadorCarrito.textContent = carrito.length;
+    }
+
+    const botonesEliminar = document.querySelectorAll(".btn-eliminar");
+
+    for (let i = 0; i < botonesEliminar.length; i++) {
+        botonesEliminar[i].addEventListener("click", eliminarProducto);
+    }
+}
+
+function eliminarProducto() {
+    const index = this.getAttribute("data-index");
+    carrito.splice(index, 1);
+    mostrarCarrito();
 }
