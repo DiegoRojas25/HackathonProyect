@@ -62,10 +62,6 @@
     max-width: 600px;
 }
 
-.cards-platos h5 {
-    font-family: var(--fuente-titulos);
-}
-
 .cards-platos {
     background-color: var(--blanco-suave);
     border-width: 2px;
@@ -73,6 +69,10 @@
     border-color: var(--crema);
     border-radius: 10px;
     font-family: var(--fuente-texto);
+}
+
+.cards-platos h5 {
+    font-family: var(--fuente-titulos);
 }
 
 .cards-platos button {
