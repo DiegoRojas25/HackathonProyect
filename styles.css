@@ -1,0 +1,92 @@
+:root {
+    --verde-oscuro: #104E43;
+    --verde-acento: #8CCB3F;
+    --naranja: #EC5E10;
+    --amarillo: #FAAA1F;
+    --crema: #FFE5B3;
+    --blanco-suave: #FFF9F1;
+    --texto-oscuro: #1f1f1f;
+
+    --fuente-titulos: "Bebas Neue", sans-serif;
+    --fuente-texto: "Montserrat", sans-serif;
+}
+
+.card-img-top {
+    height: 220px;
+    object-fit: cover;
+}
+
+.productos {
+    background-color: var(--blanco-suave);
+    padding: 5rem 0;
+}
+
+.productos h2 {
+    font-family: var(--fuente-titulos);
+    color: var(--verde-oscuro);
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.historia {
+    background-color: #104E43;
+    background-image:
+        url("./img/fondo.png");
+    background-repeat: no-repeat, no-repeat;
+    background-position: left center, right center;
+    background-size: 100%;
+    color: var(--crema);
+    padding: 5rem 0;
+}
+
+.historia-img {
+    border-width: 5px;
+    border-style: solid;
+    border-color: var(--crema);
+    border-radius: 5px;
+}
+
+
+.historia h1 {
+    font-family: var(--fuente-titulos);
+    font-size: 4rem;
+    letter-spacing: 1px;
+    color: var(--crema);
+}
+
+.historia p {
+    font-family: var(--fuente-texto);
+    font-size: 1.2rem;
+    line-height: 1.8;
+    max-width: 600px;
+}
+
+.cards-platos h5 {
+    font-family: var(--fuente-titulos);
+}
+
+.cards-platos {
+    background-color: var(--blanco-suave);
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--crema);
+    border-radius: 10px;
+    font-family: var(--fuente-texto);
+}
+
+.cards-platos button {
+    background: var(--naranja);
+    padding: 5px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: var(--crema);
+    border-width: 5px;
+    border-style: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.cards-platos button:hover {
+    background-color: #FAAA1F;
+}
