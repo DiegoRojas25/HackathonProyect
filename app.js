@@ -12,3 +12,4 @@ function saleCarrito() {
 function guardarCarrito() {
     overlay.classList.add("d-none")
 }
+
