@@ -1,3 +1,21 @@
+const botonmostrarCarrito = document.getElementById("mostrarCarrito");
+const overlay = document.getElementById("overlay");
+const cerrarCarrito = document.getElementById("cerrarCarrito");
+const catalogo = document.getElementById("catalogoProductos");
+const productosCarrito = document.getElementById("productos-carrito");
+
+cerrarCarrito.addEventListener("click", guardarCarrito);
+botonmostrarCarrito.addEventListener("click", saleCarrito);
+
+function saleCarrito() {
+    overlay.classList.remove("d-none")
+}
+
+function guardarCarrito() {
+    overlay.classList.add("d-none")
+}
+
+
 const productos = [
     {
         id: 1,
@@ -26,7 +44,7 @@ const productos = [
 
 ];
 
-const catalogo = document.getElementById("catalogoProductos");
+const carrito = [];
 
 function mostrarProductos() {
     productos.forEach(producto => {
@@ -55,18 +73,56 @@ function mostrarProductos() {
 
 mostrarProductos();
 
-const mostrarCarrito = document.getElementById("mostrarCarrito");
-const overlay = document.getElementById("overlay");
-const cerrarCarrito = document.getElementById("cerrarCarrito");
+const botonesAgregar = document.querySelectorAll(".btn-agregar");
 
-cerrarCarrito.addEventListener("click", guardarCarrito);
-mostrarCarrito.addEventListener("click", saleCarrito);
-
-function saleCarrito() {
-    overlay.classList.remove("d-none")
+for (let i = 0; i < botonesAgregar.length; i++) {
+    botonesAgregar[i].addEventListener("click", agregarProducto);
 }
 
-function guardarCarrito() {
-    overlay.classList.add("d-none")
+function agregarProducto() {
+
+    const tarjeta = this.closest(".col-md-4");
+
+    const nombre = tarjeta.querySelector("h5").textContent;
+
+    let producto;
+
+    for (let i = 0; i < productos.length; i++) {
+        if (productos[i].nombre === nombre) {
+
+            producto = productos[i];
+            break;
+        }
+    }
+
+    carrito.push(producto);
+
+    mostrarCarrito();
 }
+
+
+function mostrarCarrito() {
+
+    productosCarrito.innerHTML = "";
+
+    for (let i = 0; i < carrito.length; i++) {
+
+        productosCarrito.innerHTML += `
+
+            <div class="card mb-2">
+
+                <div class="card-body">
+
+                    <h5>${carrito[i].nombre}</h5>
+
+                    <p>$${carrito[i].precio}</p>
+
+                </div>
+
+            </div>
+
+        `;
+    }
+}
+
 
