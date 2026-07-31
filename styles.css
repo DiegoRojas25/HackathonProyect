@@ -730,12 +730,14 @@ body {
     grid-template-columns: 60% 40%;
     gap: 25px;
     flex: 1;
+    min-height: 0;
 }
 
 .productos-carrito {
     border-radius: 10px;
     background: #ececec;
     padding: 20px;
+    height: 100%;
     overflow-y: auto;
 }
 

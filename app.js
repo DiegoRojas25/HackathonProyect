@@ -117,6 +117,10 @@ function mostrarCarrito() {
 
                     <p>$${carrito[i].precio}</p>
 
+                    <button class="btn btn-danger btn-eliminar">
+                        Eliminar
+                    </button>
+
                 </div>
 
             </div>
