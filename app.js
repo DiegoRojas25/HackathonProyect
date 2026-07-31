@@ -5,16 +5,7 @@ const catalogo = document.getElementById("catalogoProductos");
 const productosCarrito = document.getElementById("productos-carrito");
 const contadorCarrito = document.getElementById("contadorCarrito");
 
-cerrarCarrito.addEventListener("click", guardarCarrito);
-botonmostrarCarrito.addEventListener("click", saleCarrito);
-
-function saleCarrito() {
-    overlay.classList.remove("d-none");
-}
-
-function guardarCarrito() {
-    overlay.classList.add("d-none");
-}
+const carrito = [];
 
 const productos = [
     {
@@ -23,7 +14,7 @@ const productos = [
         precio: 22000,
         imagen: "img/tacos.jpg",
         descripcion: "Carne de cerdo marinada con piña.",
-        categoria: "platos fuertes."
+        categoria: "platos"
     },
     {
         id: 2,
@@ -31,7 +22,7 @@ const productos = [
         precio: 26000,
         imagen: "img/burrito.jpg",
         descripcion: "Res, arroz, frijoles y queso.",
-        categoria: "platos fuertes."
+        categoria: "platos"
     },
     {
         id: 3,
@@ -39,16 +30,63 @@ const productos = [
         precio: 18000,
         imagen: "img/quesadilla.jpg",
         descripcion: "Tortilla de maíz con queso.",
-        categoria: "platos fuertes."
+        categoria: "platos"
+    },
+    {
+        id: 4,
+        nombre: "Nachos con Guacamole",
+        precio: 16000,
+        imagen: "img/nachos-guacamole.png",
+        descripcion: "Nachos crujientes acompañados de guacamole.",
+        categoria: "entradas"
+    },
+    {
+        id: 5,
+        nombre: "Elote Mexicano",
+        precio: 12000,
+        imagen: "img/elote-mexicano.png",
+        descripcion: "Mazorca con queso, limón y un toque picante.",
+        categoria: "entradas"
+    },
+    {
+        id: 6,
+        nombre: "Jalapeños Rellenos",
+        precio: 15000,
+        imagen: "img/jalapenos-rellenos.png",
+        descripcion: "Jalapeños rellenos de queso y empanizados.",
+        categoria: "entradas"
+    },
+    {
+        id: 7,
+        nombre: "Agua de Horchata",
+        precio: 8000,
+        imagen: "img/horchata.png",
+        descripcion: "Bebida de arroz con canela, fresca y cremosa.",
+        categoria: "bebidas"
+    },
+    {
+        id: 8,
+        nombre: "Agua de Jamaica",
+        precio: 7000,
+        imagen: "img/agua-jamaica.png",
+        descripcion: "Bebida refrescante de flor de Jamaica.",
+        categoria: "bebidas"
+    },
+    {
+        id: 9,
+        nombre: "Mangonada",
+        precio: 12000,
+        imagen: "img/mangonada.png",
+        descripcion: "Mango natural con chamoy, limón y tajín.",
+        categoria: "bebidas"
     }
 ];
 
-const carrito = [];
-
 function mostrarProductos() {
+    catalogo.innerHTML = "";
     productos.forEach(producto => {
         catalogo.innerHTML += `
-            <div class="${producto.categoria} col-md-4">
+            <div class="producto-item col-md-4" data-categoria="${producto.categoria}">
                 <div class="cards-platos card h-100">
                     <img src="${producto.imagen}" class="card-img-top">
                     <div class="card-body text-center">
@@ -66,62 +104,115 @@ function mostrarProductos() {
                 </div>
             </div>`;
     });
+
+    inicializarBotonesAgregar();
 }
 
-mostrarProductos();
+cerrarCarrito.addEventListener("click", guardarCarrito);
+botonmostrarCarrito.addEventListener("click", saleCarrito);
 
-const botonesAgregar = document.querySelectorAll(".btn-agregar");
+function saleCarrito() {
+    overlay.classList.remove("d-none");
+}
 
-for (let i = 0; i < botonesAgregar.length; i++) {
-    botonesAgregar[i].addEventListener("click", agregarProducto);
+function guardarCarrito() {
+    overlay.classList.add("d-none");
+}
+
+function cargarCarritoLocal() {
+    const carritoGuardado = localStorage.getItem("carrito");
+    if (carritoGuardado) {
+        const productosGuardados = JSON.parse(carritoGuardado);
+        carrito.push(...productosGuardados);
+    }
+}
+
+function guardarCarritoLocal() {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function inicializarBotonesAgregar() {
+    const botonesAgregar = document.querySelectorAll(".btn-agregar");
+    botonesAgregar.forEach(boton => {
+        boton.addEventListener("click", agregarProducto);
+    });
 }
 
 function agregarProducto() {
     const tarjeta = this.closest(".col-md-4");
     const nombre = tarjeta.querySelector("h5").textContent;
 
-    let producto;
-    for (let i = 0; i < productos.length; i++) {
-        if (productos[i].nombre === nombre) {
-            producto = productos[i];
-            break;
-        }
-    }
+    let producto = productos.find(p => p.nombre === nombre);
 
-    carrito.push(producto);
-    mostrarCarrito();
+    if (producto) {
+        carrito.push(producto);
+        guardarCarritoLocal();
+        mostrarCarrito();
+    }
 }
 
 function mostrarCarrito() {
     productosCarrito.innerHTML = "";
 
-    for (let i = 0; i < carrito.length; i++) {
+    carrito.forEach((item, index) => {
         productosCarrito.innerHTML += `
             <div class="card mb-2">
                 <div class="card-body">
-                    <h5>${carrito[i].nombre}</h5>
-                    <p>$${carrito[i].precio}</p>
-                    <button class="btn btn-danger btn-eliminar" data-index="${i}">
+                    <h5>${item.nombre}</h5>
+                    <p>$${item.precio}</p>
+                    <button class="btn btn-danger btn-eliminar" data-index="${index}">
                         Eliminar
                     </button>
                 </div>
             </div>
         `;
-    }
+    });
 
     if (contadorCarrito) {
         contadorCarrito.textContent = carrito.length;
     }
 
     const botonesEliminar = document.querySelectorAll(".btn-eliminar");
-
-    for (let i = 0; i < botonesEliminar.length; i++) {
-        botonesEliminar[i].addEventListener("click", eliminarProducto);
-    }
+    botonesEliminar.forEach(boton => {
+        boton.addEventListener("click", eliminarProducto);
+    });
 }
 
 function eliminarProducto() {
     const index = this.getAttribute("data-index");
     carrito.splice(index, 1);
+    guardarCarritoLocal();
     mostrarCarrito();
 }
+
+const botonesFiltroCategorias = document.querySelectorAll(
+    ".btn-categoria, .btn-menu-completo"
+);
+
+function filtrarProductosPorCategoria(categoriaSeleccionada) {
+    const tarjetasProductos = catalogo.querySelectorAll(".producto-item");
+
+    tarjetasProductos.forEach(tarjeta => {
+        const categoriaProducto = tarjeta.dataset.categoria;
+
+        if (
+            categoriaSeleccionada === "todos" ||
+            categoriaProducto === categoriaSeleccionada
+        ) {
+            tarjeta.classList.remove("d-none");
+        } else {
+            tarjeta.classList.add("d-none");
+        }
+    });
+}
+
+botonesFiltroCategorias.forEach(boton => {
+    boton.addEventListener("click", function () {
+        const categoriaSeleccionada = boton.dataset.categoria;
+        filtrarProductosPorCategoria(categoriaSeleccionada);
+    });
+});
+
+mostrarProductos();
+cargarCarritoLocal();
+mostrarCarrito();
