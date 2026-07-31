@@ -29,6 +29,7 @@
     margin-bottom: 3rem;
 }
 
+
 .historia {
     background-color: #104E43;
     background-image:
@@ -64,11 +65,18 @@
 
 .cards-platos {
     background-color: var(--blanco-suave);
-    border-width: 2px;
-    border-style: solid;
-    border-color: var(--crema);
     border-radius: 10px;
     font-family: var(--fuente-texto);
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+    transition:
+        transform .3s ease,
+        box-shadow .3s ease;
+}
+
+.cards-platos:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, .18);
 }
 
 .cards-platos h5 {
